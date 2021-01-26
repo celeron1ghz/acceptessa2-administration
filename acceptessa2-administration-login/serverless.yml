@@ -10,6 +10,9 @@ provider:
 #  environment:
 #    variable1: value1
 
+plugins:
+  - serverless-express
+
 #package:
 #  include:
 #    - include-me.js
@@ -23,7 +26,7 @@ functions:
     handler: handler.hello
     events:
      - httpApi:
-         path: /test
-         method: get
+         path: /{proxy+}
+         method: GET
 #    environment:
 #      variable2: value2
