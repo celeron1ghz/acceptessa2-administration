@@ -9,10 +9,6 @@ provider:
 
 #  environment:
 #    variable1: value1
-
-plugins:
-  - serverless-express
-
 #package:
 #  include:
 #    - include-me.js

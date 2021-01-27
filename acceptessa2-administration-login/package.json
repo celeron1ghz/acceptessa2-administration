@@ -4,8 +4,7 @@
   "description": "",
   "main": "handler.js",
   "dependencies": {
-    "express": "^4.17.1",
-    "serverless-express": "^2.0.11"
+    "aws-sdk": "^2.831.0"
   },
   "devDependencies": {},
   "scripts": {
