@@ -4,7 +4,11 @@
   "description": "",
   "main": "handler.js",
   "dependencies": {
-    "aws-sdk": "^2.831.0"
+    "ejs": "^3.1.5",
+    "email-validator": "^2.0.4",
+    "js-base64": "^3.6.0",
+    "query-string": "^6.13.8",
+    "rand-token": "^1.0.1"
   },
   "devDependencies": {},
   "scripts": {

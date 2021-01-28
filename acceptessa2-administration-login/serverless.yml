@@ -6,6 +6,16 @@ provider:
   lambdaHashingVersion: 20201221
   stage: dev
   region: ap-northeast-1
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: Allow
+      Action: [lambda:Invoke]
+      Resource:
+        - Fn::Join: [ ":", ["arn:aws:lambda", { Ref: AWS::Region }, { Ref: AWS::AccountId }, "function", "acceptessa2-mail-sender"]]
+    - Effect: Allow
+      Action: [dynamodb:GetItem, dynamodb:PutItem, dynamodb:DeleteItem]
+      Resource:
+        - Fn::Join: [ ":", ["arn:aws:dynamodb", { Ref: AWS::Region }, { Ref: AWS::AccountId }, "table/acceptessa2-login-token"]]
 
 #  environment:
 #    variable1: value1
@@ -18,11 +28,16 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
+  check:
+    handler: handler.check
     events:
      - httpApi:
-         path: /{proxy+}
+         path: /check
+         method: "*"
+
+  login:
+    handler: handler.login
+    events:
+     - httpApi:
+         path: /login
          method: GET
-#    environment:
-#      variable2: value2
