@@ -22,7 +22,10 @@ module.exports.check = async (event) => {
         valid = true;
         const token = r.generate(64);
         const expire_at = (new Date().getTime() / 1000) + 60 * 60 * 1; // 1 hour
+
+        const url = `https://${event.requestContext.domainName}/login?t=${token}`;
         console.log(token);
+        console.log(url);
 
         await ddb.put({
             TableName: 'acceptessa2-login-token',
@@ -57,7 +60,7 @@ module.exports.login = async (event) => {
     }
 
     const ret = await ddb.get({ TableName: 'acceptessa2-login-token', Key: { token: t } }).promise();
-    
+
     if (!ret || !ret.Item) {
         return {
             statusCode: 200,
@@ -65,10 +68,10 @@ module.exports.login = async (event) => {
             body: "NO_REC",
         };
     }
-    
+
     const mail = ret.Item.mail;
     console.log("login as " + mail);
-    
+
     await ddb.delete({ TableName: 'acceptessa2-login-token', Key: { token: t } }).promise();
 
     return {
