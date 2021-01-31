@@ -11,6 +11,8 @@ data "aws_route53_zone" "domain" {
   name = "familiar-life.info"
 }
 
+
+
 resource "aws_cloudfront_distribution" "dist" {
   enabled             = true
   is_ipv6_enabled     = true
@@ -36,6 +38,20 @@ resource "aws_cloudfront_distribution" "dist" {
     }
   }
 
+  origin {
+    origin_id   = "login"
+    domain_name = local.login_endpoint
+
+    custom_origin_config {
+      http_port                = 443
+      https_port               = 443
+      origin_keepalive_timeout = 5
+      origin_protocol_policy   = "https-only"
+      origin_read_timeout      = 30
+      origin_ssl_protocols     = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+    }
+  }
+
   ordered_cache_behavior {
     path_pattern           = "/member/*"
     allowed_methods        = ["GET", "HEAD", "OPTIONS"]
@@ -52,6 +68,26 @@ resource "aws_cloudfront_distribution" "dist" {
       headers      = ["Origin"]
       cookies {
         forward = "none"
+      }
+    }
+  }
+
+  ordered_cache_behavior {
+    path_pattern           = "/login"
+    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
+    cached_methods         = ["GET", "HEAD", "OPTIONS"]
+    target_origin_id       = "login"
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 0
+    compress               = true
+    viewer_protocol_policy = "redirect-to-https"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin"]
+      cookies {
+        forward = "all"
       }
     }
   }
