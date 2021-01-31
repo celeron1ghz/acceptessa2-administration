@@ -2,16 +2,19 @@
 
 const aws = require('aws-sdk');
 const ddb = new aws.DynamoDB.DocumentClient();
+const cf = new aws.CloudFront();
 
 const ejs = require('ejs');
-const fs = require('fs');
 
 const q = require('query-string');
 const v = require('email-validator');
 const b = require('js-base64');
 const r = require('rand-token');
+const fs = require('fs');
+const crypto = require('crypto');
 
 const index_page = fs.readFileSync('./template/index.ejs', 'utf8');
+const privateKey = fs.readFileSync('private_key.pem');
 
 module.exports.check = async (event) => {
     const req = event.requestContext;
@@ -32,7 +35,7 @@ module.exports.check = async (event) => {
             Item: {
                 token: token,
                 mail: query.mail,
-                expire_at: expire_at,
+                expire_at: Math.ceil(expire_at),
             }
         }).promise();
     }
@@ -52,6 +55,31 @@ function response(code, body) {
         headers: { 'Content-Type': 'text/html' },
         body: body,
     };
+}
+
+function make_cookie(keyGroupId) {
+    // `foo=bar; Secure; HttpOnly; Expires=${date.toUTCString()}`,
+    const expire = Math.ceil(Date.now() / 1000) + 86400;
+    const policy = {
+        "Statement": [{
+            "Resource": "https://administration.familiar-life.info/*",
+            "Condition": { "DateLessThan": { "AWS:EpochTime": expire } }
+        }]
+    };
+
+    const serialized = JSON.stringify(policy);
+    const sign = crypto.createSign("RSA-SHA1");
+    sign.update(serialized);
+
+    const signed = sign.sign(privateKey, 'base64');
+    const cfpolicy = Buffer.from(serialized).toString('base64').replace(/\+/g, "-").replace(/\=/g, "_").replace(/\//g, "~");
+    const cfsignature = signed.replace(/\+/g, "-").replace(/\=/g, "_").replace(/\//g, "~")
+
+    return [
+        `CloudFront-Key-Pair-Id=${keyGroupId}`,
+        `CloudFront-Policy=${cfpolicy}`,
+        `CloudFront-Signature=${cfsignature}`,
+    ];
 }
 
 module.exports.login = async (event) => {
@@ -74,16 +102,14 @@ module.exports.login = async (event) => {
 
     await ddb.delete({ TableName: 'acceptessa2-login-token', Key: { token: t } }).promise();
 
-    const date = new Date();
-    date.setTime(date.getTime() + 86400 * 1000);
+    const keyGroups = await cf.listKeyGroups().promise();
+    const keyGroup = keyGroups.KeyGroupList.Items.filter(data => data.KeyGroup.KeyGroupConfig.Name === 'acceptessa2-administration');
+    const keyGroupId = keyGroup[0].KeyGroup.KeyGroupConfig.Items[0];
 
     return {
         statusCode: 200,
         headers: { 'Content-Type': 'text/html' },
-        cookies: [
-            `moge=fuga; Secure; Expires=${date.toUTCString()}`,
-            `foo=bar; Secure; HttpOnly; Expires=${date.toUTCString()}`,
-        ],
+        cookies: make_cookie(keyGroupId),
         body: "OK",
     };
 };
