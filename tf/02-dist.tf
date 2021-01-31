@@ -132,7 +132,7 @@ resource "aws_cloudfront_distribution" "dist" {
 resource "aws_cloudfront_public_key" "key" {
   name        = "acceptessa2-administration"
   comment     = local.domain
-  encoded_key = file("public_key.pem")
+  encoded_key = file("../privatekey/public_key.pem")
 }
 
 resource "aws_route53_record" "record" {
