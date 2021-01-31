@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>通行証</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-weight: normal;
+    }
+
+    body {
+      padding: 5vw
+    }
+
+    #qr {
+      position: relative;
+      z-index: 50;
+    }
+
+    #image {
+      padding: 0;
+      width: 90vw;
+      height: 90vw;
+      z-index: 20;
+      position: relative;
+      top: -90vw;
+    }
+
+    #overlay {
+      /*
+      padding: 40vw 35vw;
+      width: 20vw;
+      */
+      padding: 40vw 30vw;
+      width: 30vw;
+      height: 10vw;
+      z-index: 30;
+      position: relative;
+      background-color: rgb(255, 255, 255, 0.1);
+      color: white;
+      font-size: 200%;
+    }
+
+    #overlay div {
+      background-color: white;
+      color: black;
+      width: 100%;
+      height: 100%;
+      font-size: 16px;
+    }
+
+    path {
+      fill: blue
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 7vw;
+    }
+
+    h3 {
+      text-align: center;
+      font-size: 4vw;
+      color: #bbb;
+      padding: 5px 0 0px 0;
+    }
+
+    #contents {
+      position: relative;
+      top: -90vw;
+      text-align: center;
+    }
+
+    #contents #count {
+      color: #bbb;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1><img src="logo.png" width="100%"></h1>
+    <h2>サークル通行証引換券</h2>
+    <h3 id="circle_name">サークル名</h3>
+
+    <div id="qr">
+      <div id="overlay">
+        <div>
+          <img src="logo.png" width="100%">
+        </div>
+      </div>
+      <div id="image">
+      </div>
+    </div>
+    <div id="contents">
+      <div id="count">
+        ★★★★
+      </div>
+      <br>
+      このサークル通行上引換券を画面に表示したもの、または印刷したものを入口のスタッフに提示してくください。
+    </div>
+  </main>
+
+  <script>
+    window.onload = function () {
+      const p = new window.URLSearchParams(location.search);
+
+      const name = p.get('circle_name') || 'テストサークル';
+      document.getElementById('circle_name').textContent = name;
+
+      const cnt = p.get('count') || 10;
+      document.getElementById('count').textContent = "★".repeat(cnt);
+
+      const qr = qrcode(10, 'H');
+      const token = p.get('token') || 'This is test string';
+      qr.addData(token);
+      qr.make();
+      document.getElementById('image').innerHTML = qr.createSvgTag({ margin: 5, scalable: true });
+    };
+  </script>
+</body>
+
+</html>
