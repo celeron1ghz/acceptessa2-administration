@@ -40,3 +40,4 @@ inc/
 *.tfstate
 *.tfvars
 .terraform
+*.pem
