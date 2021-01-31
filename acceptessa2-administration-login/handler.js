@@ -46,27 +46,27 @@ module.exports.check = async (event) => {
     };
 };
 
+function response(code, body) {
+    return {
+        statusCode: code,
+        headers: { 'Content-Type': 'text/html' },
+        body: body,
+    };
+}
+
 module.exports.login = async (event) => {
     const t = event.queryStringParameters
         ? event.queryStringParameters.t
         : null;
 
     if (!t) {
-        return {
-            statusCode: 200,
-            headers: { 'Content-Type': 'text/html' },
-            body: "NO",
-        };
+        return response(200, "NO");
     }
 
     const ret = await ddb.get({ TableName: 'acceptessa2-login-token', Key: { token: t } }).promise();
 
     if (!ret || !ret.Item) {
-        return {
-            statusCode: 200,
-            headers: { 'Content-Type': 'text/html' },
-            body: "NO_REC",
-        };
+        return response(200, "NO_REC");
     }
 
     const mail = ret.Item.mail;
@@ -81,8 +81,8 @@ module.exports.login = async (event) => {
         statusCode: 200,
         headers: { 'Content-Type': 'text/html' },
         cookies: [
-            "moge=fuga; Secure; Expires=" + date.toUTCString(),
-            "foo=bar; Secure; HttpOnly; Expires=" + date.toUTCString(),
+            `moge=fuga; Secure; Expires=${date.toUTCString()}`,
+            `foo=bar; Secure; HttpOnly; Expires=${date.toUTCString()}`,
         ],
         body: "OK",
     };
