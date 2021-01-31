@@ -20,27 +20,10 @@ provider:
       Action: [cloudfront:ListKeyGroups]
       Resource: "*"
 
-#  environment:
-#    variable1: value1
-#package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
-
 functions:
-  check:
-    handler: handler.check
-    events:
-     - httpApi:
-         path: /check
-         method: "*"
-
   login:
     handler: handler.login
     events:
      - httpApi:
          path: /login
-         method: GET
+         method: "*"

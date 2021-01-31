@@ -4,49 +4,70 @@ const aws = require('aws-sdk');
 const ddb = new aws.DynamoDB.DocumentClient();
 const cf = new aws.CloudFront();
 
-const ejs = require('ejs');
-
 const q = require('query-string');
 const v = require('email-validator');
 const b = require('js-base64');
 const r = require('rand-token');
 const fs = require('fs');
+const ejs = require('ejs');
 const crypto = require('crypto');
 
 const index_page = fs.readFileSync('./template/index.ejs', 'utf8');
 const privateKey = fs.readFileSync('private_key.pem');
+const TOKEN_TABLE = 'acceptessa2-login-token';
 
-module.exports.check = async (event) => {
-    const req = event.requestContext;
+module.exports.login = async (event) => {
     const query = event.body ? q.parse(b.Base64.decode(event.body)) : [];
-    let valid = false;
+    const t = event.queryStringParameters ? event.queryStringParameters.t : null;
 
-    if (req.http.method === "POST" && v.validate(query.mail)) {
-        valid = true;
+    if (event.requestContext.http.method === "POST" && v.validate(query.mail)) {
+        // verifying mail
         const token = r.generate(64);
         const expire_at = (new Date().getTime() / 1000) + 60 * 60 * 1; // 1 hour
-
         const url = `https://${event.requestContext.domainName}/login?t=${token}`;
         console.log(token);
         console.log(url);
 
         await ddb.put({
-            TableName: 'acceptessa2-login-token',
+            TableName: TOKEN_TABLE,
             Item: {
                 token: token,
                 mail: query.mail,
                 expire_at: Math.ceil(expire_at),
             }
         }).promise();
+
+        const content = ejs.render(index_page, { test: "OK" });
+        return response(200, content);
+    } else if (t) {
+        // come from mail's link
+        const ret = await ddb.get({ TableName: TOKEN_TABLE, Key: { token: t } }).promise();
+
+        if (!ret || !ret.Item) {
+            return response(200, "NO_REC");
+        }
+
+        const mail = ret.Item.mail;
+        console.log("login as " + mail);
+
+        await ddb.delete({ TableName: TOKEN_TABLE, Key: { token: t } }).promise();
+
+        const keyGroups = await cf.listKeyGroups().promise();
+        const keyGroup = keyGroups.KeyGroupList.Items.filter(data => data.KeyGroup.KeyGroupConfig.Name === 'acceptessa2-administration');
+        const keyGroupId = keyGroup[0].KeyGroup.KeyGroupConfig.Items[0];
+
+        return {
+            statusCode: 200,
+            headers: { 'Content-Type': 'text/html' },
+            cookies: make_cookie(keyGroupId),
+            body: "OK. <a href='./member/'>move!</a>",
+        };
+
+    } else {
+        // normal access
+        const content = ejs.render(index_page, { test: 'NOT' });
+        return response(200, content);
     }
-
-    const content = ejs.render(index_page, { test: valid ? "OK" : 'NOT' });
-
-    return {
-        statusCode: 200,
-        headers: { 'Content-Type': 'text/html' },
-        body: content,
-    };
 };
 
 function response(code, body) {
@@ -81,35 +102,3 @@ function make_cookie(keyGroupId) {
         `CloudFront-Signature=${cfsignature}`,
     ];
 }
-
-module.exports.login = async (event) => {
-    const t = event.queryStringParameters
-        ? event.queryStringParameters.t
-        : null;
-
-    if (!t) {
-        return response(200, "NO");
-    }
-
-    const ret = await ddb.get({ TableName: 'acceptessa2-login-token', Key: { token: t } }).promise();
-
-    if (!ret || !ret.Item) {
-        return response(200, "NO_REC");
-    }
-
-    const mail = ret.Item.mail;
-    console.log("login as " + mail);
-
-    await ddb.delete({ TableName: 'acceptessa2-login-token', Key: { token: t } }).promise();
-
-    const keyGroups = await cf.listKeyGroups().promise();
-    const keyGroup = keyGroups.KeyGroupList.Items.filter(data => data.KeyGroup.KeyGroupConfig.Name === 'acceptessa2-administration');
-    const keyGroupId = keyGroup[0].KeyGroup.KeyGroupConfig.Items[0];
-
-    return {
-        statusCode: 200,
-        headers: { 'Content-Type': 'text/html' },
-        cookies: make_cookie(keyGroupId),
-        body: "OK",
-    };
-};

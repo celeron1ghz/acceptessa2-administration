@@ -54,8 +54,8 @@ resource "aws_cloudfront_distribution" "dist" {
 
   ordered_cache_behavior {
     path_pattern           = "/member/*"
-    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
-    cached_methods         = ["GET", "HEAD", "OPTIONS"]
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
     target_origin_id       = "member"
     min_ttl                = 864000
     default_ttl            = 864000
@@ -74,8 +74,8 @@ resource "aws_cloudfront_distribution" "dist" {
 
   ordered_cache_behavior {
     path_pattern           = "/login"
-    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
-    cached_methods         = ["GET", "HEAD", "OPTIONS"]
+    allowed_methods        = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods         = ["GET", "HEAD"]
     target_origin_id       = "login"
     min_ttl                = 0
     default_ttl            = 0
