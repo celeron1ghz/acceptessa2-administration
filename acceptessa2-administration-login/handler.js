@@ -12,32 +12,32 @@ const fs = require('fs');
 const ejs = require('ejs');
 const crypto = require('crypto');
 
-const index_page = fs.readFileSync('./template/index.ejs', 'utf8');
+const indexPage = fs.readFileSync('./template/index.ejs', 'utf8');
 const privateKey = fs.readFileSync('private_key.pem');
 const TOKEN_TABLE = 'acceptessa2-login-token';
 
 module.exports.login = async (event) => {
     const query = event.body ? q.parse(b.Base64.decode(event.body)) : [];
     const t = event.queryStringParameters ? event.queryStringParameters.t : null;
+    const mail = query ? query.mail : null;
 
-    if (event.requestContext.http.method === "POST" && v.validate(query.mail)) {
+    if (event.requestContext.http.method === "POST" && v.validate(mail)) {
         // verifying mail
         const token = r.generate(64);
         const expire_at = (new Date().getTime() / 1000) + 60 * 60 * 1; // 1 hour
         const url = `https://${event.requestContext.domainName}/login?t=${token}`;
         console.log(token);
-        console.log(url);
 
         await ddb.put({
             TableName: TOKEN_TABLE,
             Item: {
                 token: token,
-                mail: query.mail,
+                mail: mail,
                 expire_at: Math.ceil(expire_at),
             }
         }).promise();
 
-        const content = ejs.render(index_page, { test: "OK" });
+        const content = ejs.render(indexPage, { test: "OK" });
         return response(200, content);
     } else if (t) {
         // come from mail's link
@@ -65,7 +65,7 @@ module.exports.login = async (event) => {
 
     } else {
         // normal access
-        const content = ejs.render(index_page, { test: 'NOT' });
+        const content = ejs.render(indexPage, { test: 'NOT' });
         return response(200, content);
     }
 };
@@ -79,7 +79,6 @@ function response(code, body) {
 }
 
 function make_cookie(keyGroupId) {
-    // `foo=bar; Secure; HttpOnly; Expires=${date.toUTCString()}`,
     const expire = Math.ceil(Date.now() / 1000) + 86400;
     const policy = {
         "Statement": [{
@@ -97,8 +96,8 @@ function make_cookie(keyGroupId) {
     const cfsignature = signed.replace(/\+/g, "-").replace(/\=/g, "_").replace(/\//g, "~")
 
     return [
-        `CloudFront-Key-Pair-Id=${keyGroupId}`,
-        `CloudFront-Policy=${cfpolicy}`,
-        `CloudFront-Signature=${cfsignature}`,
+        `CloudFront-Key-Pair-Id=${keyGroupId}; Secure; HttpOnly;`,
+        `CloudFront-Policy=${cfpolicy}; Secure; HttpOnly;`,
+        `CloudFront-Signature=${cfsignature}; Secure; HttpOnly;`,
     ];
 }
