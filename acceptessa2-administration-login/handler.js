@@ -74,9 +74,16 @@ module.exports.login = async (event) => {
 
     await ddb.delete({ TableName: 'acceptessa2-login-token', Key: { token: t } }).promise();
 
+    const date = new Date();
+    date.setTime(date.getTime() + 86400 * 1000);
+
     return {
         statusCode: 200,
         headers: { 'Content-Type': 'text/html' },
+        cookies: [
+            "moge=fuga; Secure; Expires=" + date.toUTCString(),
+            "foo=bar; Secure; HttpOnly; Expires=" + date.toUTCString(),
+        ],
         body: "OK",
     };
 };
