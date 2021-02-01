@@ -1,24 +1,24 @@
 locals {
-  domain = "administration.familiar-life.info"
+  administrator_domain = "administration.${local.apex_domain}"
 }
 
+
 data "aws_acm_certificate" "domain" {
-  domain   = "*.familiar-life.info"
+  domain   = "*.${local.apex_domain}"
   provider = aws.virginia
 }
 
 data "aws_route53_zone" "domain" {
-  name = "familiar-life.info"
+  name = local.apex_domain
 }
-
 
 
 resource "aws_cloudfront_distribution" "dist" {
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = local.domain
+  comment             = local.administrator_domain
   default_root_object = "index.html"
-  aliases             = [local.domain]
+  aliases             = [local.administrator_domain]
 
   origin {
     origin_id   = "root"
@@ -136,14 +136,14 @@ resource "aws_cloudfront_distribution" "dist" {
 }
 
 resource "aws_cloudfront_public_key" "key" {
-  name        = "acceptessa2-administration"
-  comment     = local.domain
+  name        = "${local.appid}-administration"
+  comment     = local.administrator_domain
   encoded_key = file("../privatekey/public_key.pem")
 }
 
 resource "aws_route53_record" "record" {
   type    = "A"
-  name    = local.domain
+  name    = local.administrator_domain
   zone_id = data.aws_route53_zone.domain.id
 
   alias {

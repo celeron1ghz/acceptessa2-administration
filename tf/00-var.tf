@@ -1,6 +1,7 @@
 locals {
   appid = "acceptessa2"
   # login_endpoint = "xxxxxxxx.execute-api.ap-northeast-1.amazonaws.com"
+  # apex_domain = "example.com"
 }
 
 provider "aws" {
