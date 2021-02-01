@@ -122,11 +122,17 @@ resource "aws_cloudfront_distribution" "dist" {
     ssl_support_method  = "sni-only"
   }
 
-  # custom_error_response {
-  #   error_code         = "403"
-  #   response_code      = "200"
-  #   response_page_path = "/index.html"
-  # }
+  custom_error_response {
+    error_code         = "403"
+    response_code      = "403"
+    response_page_path = "/403.html"
+  }
+
+  custom_error_response {
+    error_code         = "404"
+    response_code      = "404"
+    response_page_path = "/404.html"
+  }
 }
 
 resource "aws_cloudfront_public_key" "key" {
