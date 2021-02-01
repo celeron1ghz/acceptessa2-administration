@@ -25,7 +25,6 @@ module.exports.login = async (event) => {
         // verifying mail
         const token = r.generate(64);
         const expire_at = (new Date().getTime() / 1000) + 60 * 60 * 1; // 1 hour
-        const url = `https://${event.requestContext.domainName}/login?t=${token}`;
         console.log(token);
 
         await ddb.put({
