@@ -38,6 +38,17 @@ data "aws_iam_policy_document" "root" {
       identifiers = [aws_cloudfront_origin_access_identity.root.iam_arn]
     }
   }
+
+  statement {
+    sid       = "2"
+    effect    = "Allow"
+    actions   = ["s3:ListBucket"]
+    resources = [aws_s3_bucket.root.arn]
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.root.iam_arn]
+    }
+  }
 }
 
 data "aws_iam_policy_document" "member" {
@@ -46,6 +57,17 @@ data "aws_iam_policy_document" "member" {
     effect    = "Allow"
     actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.member.arn}/*"]
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.member.iam_arn]
+    }
+  }
+
+  statement {
+    sid       = "2"
+    effect    = "Allow"
+    actions   = ["s3:ListBucket"]
+    resources = [aws_s3_bucket.member.arn]
     principals {
       type        = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.member.iam_arn]
