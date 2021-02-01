@@ -1,0 +1,12 @@
+cd $(dirname $0)/../
+
+cd core/client/
+npm run-script build
+aws s3 sync ./build s3://acceptessa2-administration-member/member/ --delete
+
+DOMAIN="administration.familiar-life.info"
+ID=$(aws cloudfront list-distributions --query "DistributionList.Items[?contains(to_string(Aliases.Items), \`$DOMAIN\`)].Id | [0]" --output text)
+JSON=$(printf '{"Paths":{"Items":["/*"],"Quantity":1},"CallerReference":"%s"}' `date +%s`)
+
+echo "invalidate dist_id=$ID..."
+aws cloudfront create-invalidation --distribution-id $ID --invalidation-batch $JSON
