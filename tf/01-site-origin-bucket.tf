@@ -1,9 +1,11 @@
 resource "aws_s3_bucket" "root" {
   bucket = "${local.appid}-administration-root"
+  acl    = "private"
 }
 
 resource "aws_s3_bucket" "member" {
   bucket = "${local.appid}-administration-member"
+  acl    = "private"
 }
 
 

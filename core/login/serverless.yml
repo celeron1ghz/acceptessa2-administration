@@ -6,6 +6,7 @@ provider:
   lambdaHashingVersion: 20201221
   stage: dev
   region: ap-northeast-1
+  deploymentBucket: acceptessa2-serverless-deploy
   versionFunctions: false
   iamRoleStatements:
     - Effect: Allow
