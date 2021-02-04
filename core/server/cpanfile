@@ -1,3 +1,5 @@
 requires 'Amon2';
 requires 'Amon2::Lite';
 requires 'Paws';
+requires 'String::CamelCase';
+requires 'Class::Load';
