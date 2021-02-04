@@ -3,6 +3,10 @@ use Mouse;
 
 with 'Acceptessa2::Administration::Role::Command';
 
-sub run { }
+sub run {
+    my $self = shift;
+    my $ddb  = $self->ctx->aws_service('DynamoDB');
+    warn @{ $ddb->ListTables->TableNames };
+}
 
 1;
