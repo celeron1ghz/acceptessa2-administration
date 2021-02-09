@@ -1,11 +1,14 @@
 package Acceptessa2::Administration::Validator;
 use strictures 2;
+use Function::Parameters;
+use Function::Return;
+use Acceptessa2::Administration::Types -types;
 
-sub build {
+method build(ArrayRef $params) {
 
 }
 
-sub validate_single {
+method validate_single(Str $column, Maybe[Str] $value) {
 
 }
 
@@ -19,6 +22,7 @@ package Acceptessa2::Administration::Validator::Column;
 use utf8;
 use strictures 2;
 use Mouse;
+use MouseX::StrictConstructor;
 use Syntax::Keyword::Try;
 use Function::Parameters;
 use Function::Return;

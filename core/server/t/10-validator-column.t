@@ -1,11 +1,26 @@
 use utf8;
 use strict;
 use Test::More;
+use Test::Exception;
 use Acceptessa2::Administration::Types -types;
 use Acceptessa2::Administration::Validator;
 
-plan tests => 8;
+plan tests => 9;
 
+{
+    throws_ok {
+        Acceptessa2::Administration::Validator::Column->new(
+            {
+                column_name => 'name',
+                label       => '名前',
+                type        => Str,
+                description => 'なまえ',
+                moge        => 'fuga',
+            }
+        )
+    }
+    qr/^Unknown attribute passed to the constructor of Acceptessa2::Administration::Validator::Column: moge/, 'die on specify non-required column';
+}
 {
     my $c = Acceptessa2::Administration::Validator::Column->new(
         {
