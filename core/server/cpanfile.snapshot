@@ -23670,6 +23670,42 @@ DISTRIBUTIONS
       Exporter::Tiny 1.000000
       ExtUtils::MakeMaker 6.17
       perl 5.006001
+  Types-Path-Tiny-0.006
+    pathname: D/DA/DAGOLDEN/Types-Path-Tiny-0.006.tar.gz
+    provides:
+      Types::Path::Tiny 0.006
+    requirements:
+      ExtUtils::MakeMaker 6.17
+      Path::Tiny 0
+      Type::Library 0.008
+      Type::Utils 0
+      Types::Standard 0
+      Types::TypeTiny 0.004
+      perl 5.008001
+      strict 0
+      warnings 0
+  Types-URI-0.007
+    pathname: T/TO/TOBYINK/Types-URI-0.007.tar.gz
+    provides:
+      Types::URI 0.007
+    requirements:
+      ExtUtils::MakeMaker 6.17
+      Type::Library 1.000000
+      Types::Path::Tiny 0
+      Types::Standard 0
+      Types::UUID 0
+      URI 0
+      URI::FromHash 0
+      perl 5.008
+  Types-UUID-0.004
+    pathname: T/TO/TOBYINK/Types-UUID-0.004.tar.gz
+    provides:
+      Types::UUID 0.004
+    requirements:
+      ExtUtils::MakeMaker 6.17
+      Type::Tiny 1.000000
+      UUID::Tiny 1.02
+      perl 5.008
   URI-5.07
     pathname: O/OA/OALDERS/URI-5.07.tar.gz
     provides:
@@ -23734,6 +23770,18 @@ DISTRIBUTIONS
       strict 0
       utf8 0
       warnings 0
+  URI-FromHash-0.05
+    pathname: D/DR/DROLSKY/URI-FromHash-0.05.tar.gz
+    provides:
+      URI::FromHash 0.05
+    requirements:
+      Carp 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      Params::Validate 0
+      URI 1.68
+      strict 0
+      warnings 0
   URI-Template-0.24
     pathname: B/BR/BRICAS/URI-Template-0.24.tar.gz
     provides:
@@ -23769,6 +23817,19 @@ DISTRIBUTIONS
       URL::Encode 0.03
       XSLoader 0
       perl 5.008001
+  UUID-Tiny-1.04
+    pathname: C/CA/CAUGUSTIN/UUID-Tiny-1.04.tar.gz
+    provides:
+      UUID::Tiny 1.04
+    requirements:
+      Carp 0
+      Digest::MD5 0
+      ExtUtils::MakeMaker 0
+      IO::File 0
+      MIME::Base64 0
+      POSIX 0
+      Test::More 0
+      Time::HiRes 0
   Variable-Magic-0.62
     pathname: V/VP/VPIT/Variable-Magic-0.62.tar.gz
     provides:

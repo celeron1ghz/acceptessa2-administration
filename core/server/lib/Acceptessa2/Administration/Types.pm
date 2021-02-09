@@ -9,6 +9,7 @@ BEGIN {
       Types::Standard
       Types::Common::Numeric
       Types::Common::String
+      Types::URI
     );
 }
 
