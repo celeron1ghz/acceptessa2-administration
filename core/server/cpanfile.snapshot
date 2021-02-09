@@ -139,6 +139,18 @@ DISTRIBUTIONS
       perl 5.006001
       strict 0
       warnings 0
+  B-Hooks-OP-Check-0.22
+    pathname: E/ET/ETHER/B-Hooks-OP-Check-0.22.tar.gz
+    provides:
+      B::Hooks::OP::Check 0.22
+    requirements:
+      DynaLoader 0
+      ExtUtils::Depends 0.302
+      ExtUtils::MakeMaker 0
+      parent 0
+      perl 5.008001
+      strict 0
+      warnings 0
   Class-Accessor-Lite-0.08
     pathname: K/KA/KAZUHO/Class-Accessor-Lite-0.08.tar.gz
     provides:
@@ -977,6 +989,16 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.30
       strict 0
       warnings 0
+  ExtUtils-Depends-0.8000
+    pathname: X/XA/XAOC/ExtUtils-Depends-0.8000.tar.gz
+    provides:
+      ExtUtils::Depends 0.8000
+    requirements:
+      Data::Dumper 0
+      ExtUtils::MakeMaker 0
+      File::Spec 0
+      IO::File 0
+      perl 5.006
   ExtUtils-Helpers-0.026
     pathname: L/LE/LEONT/ExtUtils-Helpers-0.026.tar.gz
     provides:
@@ -1109,6 +1131,37 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
+  Function-Parameters-2.001003
+    pathname: M/MA/MAUKE/Function-Parameters-2.001003.tar.gz
+    provides:
+      Function::Parameters 2.001003
+      Function::Parameters::Info 2.001003
+      Function::Parameters::Param 2.001003
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      File::Find 0
+      File::Spec 0
+      Scalar::Util 0
+      XSLoader 0
+      perl 5.014000
+      strict 0
+      warnings 0
+  Function-Return-0.07
+    pathname: K/KF/KFLY/Function-Return-0.07.tar.gz
+    provides:
+      Function::Return 0.07
+      Function::Return::Info undef
+    requirements:
+      B::Hooks::EndOfScope 0.23
+      Function::Parameters 2.000003
+      Module::Build::Tiny 0.035
+      Scalar::Util 0
+      Scope::Upper 0
+      Sub::Info 0
+      Sub::Util 0
+      attributes 0
+      perl 5.014004
   Getopt-Long-Descriptive-0.105
     pathname: R/RJ/RJBS/Getopt-Long-Descriptive-0.105.tar.gz
     provides:
@@ -1349,6 +1402,13 @@ DISTRIBUTIONS
       Mozilla::CA 0
       Net::SSLeay 1.46
       Scalar::Util 0
+  Importer-0.026
+    pathname: E/EX/EXODIST/Importer-0.026.tar.gz
+    provides:
+      Importer 0.026
+    requirements:
+      ExtUtils::MakeMaker 0
+      perl 5.008001
   JSON-4.03
     pathname: I/IS/ISHIGAKI/JSON-4.03.tar.gz
     provides:
@@ -2157,6 +2217,15 @@ DISTRIBUTIONS
       Scalar::Util 1.14
       XSLoader 0.02
       perl 5.008005
+  MouseX-StrictConstructor-0.02
+    pathname: G/GF/GFUJI/MouseX-StrictConstructor-0.02.tar.gz
+    provides:
+      MouseX::StrictConstructor 0.02
+    requirements:
+      ExtUtils::MakeMaker 6.42
+      Mouse 0.62
+      Test::More 0.88
+      perl 5.006002
   Mozilla-CA-20200520
     pathname: A/AB/ABH/Mozilla-CA-20200520.tar.gz
     provides:
@@ -23146,6 +23215,19 @@ DISTRIBUTIONS
       Scalar::Util 0
       parent 0
       perl 5.008_001
+  Scope-Upper-0.32
+    pathname: V/VP/VPIT/Scope-Upper-0.32.tar.gz
+    provides:
+      Scope::Upper 0.32
+    requirements:
+      Config 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      POSIX 0
+      Test::More 0
+      XSLoader 0
+      base 0
+      perl 5.006001
   Specio-0.47
     pathname: D/DR/DROLSKY/Specio-0.47.tar.gz
     provides:
@@ -23265,6 +23347,16 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
+  Sub-Info-0.002
+    pathname: E/EX/EXODIST/Sub-Info-0.002.tar.gz
+    provides:
+      Sub::Info 0.002
+    requirements:
+      B 0
+      Carp 0
+      ExtUtils::MakeMaker 0
+      Importer 0.024
+      perl 5.008001
   Sub-Install-0.928
     pathname: R/RJ/RJBS/Sub-Install-0.928.tar.gz
     provides:
@@ -23296,6 +23388,14 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Scalar::Util 0
       perl 5.006
+  Syntax-Keyword-Try-0.21
+    pathname: P/PE/PEVANS/Syntax-Keyword-Try-0.21.tar.gz
+    provides:
+      Syntax::Keyword::Try 0.21
+    requirements:
+      ExtUtils::CBuilder 0
+      Module::Build 0.4004
+      perl 5.014
   Test-Deep-1.130
     pathname: R/RJ/RJBS/Test-Deep-1.130.tar.gz
     provides:
@@ -23789,6 +23889,38 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008
+  bareword-filehandles-0.007
+    pathname: I/IL/ILMARI/bareword-filehandles-0.007.tar.gz
+    provides:
+      bareword::filehandles 0.007
+    requirements:
+      B::Hooks::OP::Check 0
+      ExtUtils::Depends 0
+      ExtUtils::MakeMaker 0
+      Test::More 0.88
+      XSLoader 0
+      if 0
+      perl 5.008001
+      strict 0
+      warnings 0
+  indirect-0.39
+    pathname: V/VP/VPIT/indirect-0.39.tar.gz
+    provides:
+      indirect 0.39
+    requirements:
+      Carp 0
+      Config 0
+      ExtUtils::MakeMaker 0
+      File::Spec 0
+      IO::Handle 0
+      IO::Select 0
+      IPC::Open3 0
+      POSIX 0
+      Socket 0
+      Test::More 0
+      XSLoader 0
+      lib 0
+      perl 5.008001
   libwww-perl-6.52
     pathname: O/OA/OALDERS/libwww-perl-6.52.tar.gz
     provides:
@@ -23851,6 +23983,21 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
+  multidimensional-0.014
+    pathname: I/IL/ILMARI/multidimensional-0.014.tar.gz
+    provides:
+      multidimensional 0.014
+    requirements:
+      B::Hooks::OP::Check 0.19
+      CPAN::Meta 2.112580
+      ExtUtils::Depends 0
+      ExtUtils::MakeMaker 0
+      Test::More 0.88
+      XSLoader 0
+      if 0
+      perl 5.008001
+      strict 0
+      warnings 0
   namespace-autoclean-0.29
     pathname: E/ET/ETHER/namespace-autoclean-0.29.tar.gz
     provides:
@@ -23873,3 +24020,13 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Package::Stash 0.23
       perl 5.008001
+  strictures-2.000006
+    pathname: H/HA/HAARG/strictures-2.000006.tar.gz
+    provides:
+      strictures 2.000006
+      strictures::extra undef
+    requirements:
+      bareword::filehandles 0
+      indirect 0
+      multidimensional 0
+      perl 5.006

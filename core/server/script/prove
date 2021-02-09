@@ -5,4 +5,4 @@ docker run \
     -v $HOME/.aws:/root/.aws \
     -e PAWS_SILENCE_UNSTABLE_WARNINGS=1 \
     --entrypoint /usr/bin/perl \
-    acceptessa2-administration -MApp::Prove -e 'my $app = App::Prove->new; $app->process_args("-Ilib", "-Ilocal/lib/perl5"); exit( $app->run ? 0 : 1 );'
+    acceptessa2-administration -MApp::Prove -e 'my $app = App::Prove->new; $app->process_args("-Ilib", "-Ilocal/lib/perl5", "-Ilocal/lib/perl5/x86_64-linux"); exit( $app->run ? 0 : 1 );'

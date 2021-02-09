@@ -5,8 +5,8 @@ with 'Acceptessa2::Administration::Role::Command';
 
 sub run {
     my $self = shift;
-    my $ddb  = $self->ctx->aws_service('DynamoDB');
-    warn @{ $ddb->ListTables->TableNames };
+    # my $ddb  = $self->ctx->aws_service('DynamoDB');
+    # warn @{ $ddb->ListTables->TableNames };
 }
 
 1;
