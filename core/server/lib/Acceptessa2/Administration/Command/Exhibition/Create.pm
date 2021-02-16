@@ -3,8 +3,8 @@ use strictures 2;
 use Mouse;
 use Function::Parameters;
 use Function::Return;
-use Acceptessa2::Administration::Types -types;
 use Syntax::Keyword::Try;
+use Acceptessa2::Administration::Types -types;
 use namespace::clean;
 
 with 'Acceptessa2::Administration::Role::Command';
