@@ -19,13 +19,16 @@ method build(ArrayRef[HashRef] $params): Return(InstanceOf[__PACKAGE__]) {
     return $self->new(validators => $columns);
 }
 
-method validate_single(Str $column, Maybe [Str] $value) {
-    my $v = $self->validators->{$column} or return;
-    return $v->validate($value);
+method get_validator(Str $column) {
+    return $self->validators->{$column};
 }
 
 method validate_all(Map[Str, Str] $data) {
+    my $errors = {};
 
+    while (my($col,$v) = each %{$self->validators}) {
+        warn $col, $v->validate($data->{$col});
+    }
 }
 
 1;

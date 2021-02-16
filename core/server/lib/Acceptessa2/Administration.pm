@@ -6,6 +6,8 @@ use Paws;
 use String::CamelCase;
 use Class::Load;
 
+has paws => (is => 'ro', isa => 'Paws', default => sub { Paws->new });
+
 sub to_class_name {
     my $class = shift;
     my $val   = shift or return;
@@ -46,7 +48,12 @@ sub load_class {
 
 sub aws_service {
     my ($self, $service, @args) = @_;
-    Paws->service($service, region => 'ap-northeast-1', @args);
+    $self->paws->service($service, region => 'ap-northeast-1', @args);
+}
+
+sub dynamodb {
+    my ($self) = @_;
+    $self->aws_service('DynamoDB');
 }
 
 sub run_command {

@@ -25,5 +25,6 @@ my $v = Acceptessa2::Administration::Validator->build(
 );
 
 isa_ok $v, 'Acceptessa2::Administration::Validator';
-is $v->validate_single(aa   => undef), undef, 'return false on not exist column';
-is $v->validate_single(name => undef), '',    'return false on validator is false';
+
+is $v->get_validator("aa"), undef, 'return false on not exist column';
+is $v->get_validator("name")->validate(undef), '',    'return false on validator is false';
