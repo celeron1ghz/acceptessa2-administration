@@ -1,0 +1,4 @@
+[[columns]]
+type = "Str"
+column_name = "moge"
+label = "fuga"

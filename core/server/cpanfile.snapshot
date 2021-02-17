@@ -1411,6 +1411,49 @@ DISTRIBUTIONS
       File::Spec 0.8
       Module::Build 0.28
       Test::More 0.80
+  Imager-1.012
+    pathname: T/TO/TONYC/Imager-1.012.tar.gz
+    provides:
+      Imager 1.012
+      Imager::Color 1.013
+      Imager::Color::Float 1.006
+      Imager::Color::Table 1.004
+      Imager::CountColor 0.03
+      Imager::Expr 1.008
+      Imager::Expr::Assem 1.004
+      Imager::Expr::Infix 1.008
+      Imager::Expr::Postfix 1.008
+      Imager::ExtUtils 1.003
+      Imager::FORMATS 1.012
+      Imager::File::CUR 1.000
+      Imager::File::ICO 0.07
+      Imager::File::SGI 0.05
+      Imager::Fill 1.013
+      Imager::Filter::DynTest 0.03
+      Imager::Filter::Flines 0.04
+      Imager::Filter::Mandelbrot 0.05
+      Imager::Font 1.039
+      Imager::Font::BBox 1.007
+      Imager::Font::FreeType2 1.021
+      Imager::Font::Image 1.000
+      Imager::Font::Test 1.002
+      Imager::Font::Truetype 1.013
+      Imager::Font::Type1 1.013
+      Imager::Font::Wrap 1.005
+      Imager::Fountain 1.008
+      Imager::IO 1.012
+      Imager::Matrix2d 1.013
+      Imager::Preprocess 1.002
+      Imager::Probe 1.007
+      Imager::Regops 1.000
+      Imager::Test 1.005
+      Imager::Test::OverUtf8 1.005
+      Imager::Transform 1.007
+    requirements:
+      ExtUtils::MakeMaker 0
+      Scalar::Util 1.00
+      Test::More 0.99
+      XSLoader 0
   Importer-0.026
     pathname: E/EX/EXODIST/Importer-0.026.tar.gz
     provides:
@@ -23405,6 +23448,29 @@ DISTRIBUTIONS
       ExtUtils::CBuilder 0
       Module::Build 0.4004
       perl 5.014
+  TOML-0.97
+    pathname: K/KA/KARUPA/TOML-0.97.tar.gz
+    provides:
+      TOML 0.97
+    requirements:
+      Exporter 5.57
+      Module::Build::Tiny 0.035
+      TOML::Parser 0.04
+      perl 5.008005
+  TOML-Parser-0.91
+    pathname: K/KA/KARUPA/TOML-Parser-0.91.tar.gz
+    provides:
+      TOML::Parser 0.91
+      TOML::Parser::Tokenizer undef
+      TOML::Parser::Tokenizer::Strict undef
+      TOML::Parser::Util undef
+    requirements:
+      Encode 0
+      Exporter 5.57
+      Module::Build::Tiny 0.035
+      Types::Serialiser 0
+      parent 0
+      perl 5.010000
   Test-Deep-1.130
     pathname: R/RJ/RJBS/Test-Deep-1.130.tar.gz
     provides:
@@ -23693,6 +23759,16 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
+  Types-Serialiser-1.01
+    pathname: M/ML/MLEHMANN/Types-Serialiser-1.01.tar.gz
+    provides:
+      JSON::PP::Boolean 1.01
+      Types::Serialiser 1.01
+      Types::Serialiser::BooleanBase 1.01
+      Types::Serialiser::Error 1.01
+    requirements:
+      ExtUtils::MakeMaker 0
+      common::sense 0
   Types-URI-0.007
     pathname: T/TO/TOBYINK/Types-URI-0.007.tar.gz
     provides:
@@ -23973,6 +24049,12 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
+  common-sense-3.75
+    pathname: M/ML/MLEHMANN/common-sense-3.75.tar.gz
+    provides:
+      common::sense 3.75
+    requirements:
+      ExtUtils::MakeMaker 0
   indirect-0.39
     pathname: V/VP/VPIT/indirect-0.39.tar.gz
     provides:

@@ -12,3 +12,4 @@ requires 'Syntax::Keyword::Try';
 requires 'namespace::clean';
 requires 'Types::URI';
 requires 'Image::Size';
+requires 'TOML';

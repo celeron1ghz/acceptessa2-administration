@@ -1,8 +1,9 @@
 package Acceptessa2::Administration::Validator;
 use strictures 2;
-use Mouse;
+use Moose;
 use Function::Parameters;
 use Function::Return;
+use Syntax::Keyword::Try;
 use Acceptessa2::Administration::Types -types;
 use namespace::clean;
 
@@ -10,10 +11,27 @@ has validators => (is => 'ro', isa => Map[Str, InstanceOf['Acceptessa2::Administ
 
 method build(ArrayRef[HashRef] $params): Return(InstanceOf[__PACKAGE__]) {
     my $columns;
+    my $idx = 0;
+    my $type;
 
-    for my $p (@$params) {
-        my $v = Acceptessa2::Administration::Validator::Column->new(%$p);
-        $columns->{$v->column_name} = $v;
+    try {
+        for my $p (@$params) {
+            $type = $p->{type};
+            if ($type && !ref $type) {
+                $p->{type} = Acceptessa2::Administration::Types->meta->get_type($type) or die;
+            }
+
+            my $v = Acceptessa2::Administration::Validator::Column->new(%$p);
+            $columns->{$v->column_name} = $v;
+            $idx++;
+        }
+    } catch ($e) {
+        if ($e->isa('Moose::Exception')) {
+            my $mess = $e->message;
+            die "invalid format: $mess in columns[$idx]\n";
+        } else {
+            die "invalid format: unknown type '$type' in columns[$idx]\n";
+        }
     }
 
     return $self->new(validators => $columns);
@@ -36,7 +54,7 @@ method validate_all(Map[Str, Str] $data) {
 package Acceptessa2::Administration::Validator::Column;
 use utf8;
 use strictures 2;
-use Mouse;
+use Moose;
 use MouseX::StrictConstructor;
 use Function::Parameters;
 use Function::Return;
