@@ -19,7 +19,7 @@ plan tests => 9;
             }
         )
     }
-    qr/^Unknown attribute passed to the constructor of Acceptessa2::Administration::Validator::Column: moge/, 'die on specify non-required column';
+    'Moose::Exception::Legacy', 'die on specify non-required column';
 }
 {
     my $c = Acceptessa2::Administration::Validator::Column->new(

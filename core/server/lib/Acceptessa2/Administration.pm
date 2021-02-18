@@ -1,22 +1,24 @@
 package Acceptessa2::Administration;
-use strict;
-use warnings;
+use strictures 2;
+use feature 'state';
 use Mouse;
+use Function::Parameters;
+use Function::Return;
+use Acceptessa2::Administration::Types -types;
+use Acceptessa2::Administration::Validator;
 use Paws;
 use String::CamelCase;
 use Class::Load;
+use namespace::clean;
 
-has paws => (is => 'ro', isa => 'Paws', default => sub { Paws->new });
+has paws       => (is => 'ro', isa => 'Paws',    default => sub { Paws->new });
+has validators => (is => 'ro', isa => 'HashRef', default => sub { +{} });
 
-sub to_class_name {
-    my $class = shift;
-    my $val   = shift or return;
+method to_class_name(Str $val) {
     return join '::', 'Acceptessa2::Administration::Command', map { String::CamelCase::camelize $_ } split '\.', $val;
 }
 
-sub to_command_name {
-    my $class = shift;
-    my $val   = shift or return;
+method to_command_name(Str $val) {
     $val =~ s/^Acceptessa2::Administration::Command:://;
     return join '.', map { String::CamelCase::decamelize $_ } split '::', $val;
 }
@@ -67,6 +69,14 @@ sub run_command {
     };
 
     $command_class->new(%$param)->run;
+}
+
+method get_validator(Str $exhibition_id) {
+    if (!$self->validator->{$exhibition_id}) {
+        $self->validator->{$exhibition_id} = 1;
+    }
+
+    return $self->validator->{$exhibition_id};
 }
 
 1;
