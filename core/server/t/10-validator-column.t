@@ -1,11 +1,9 @@
 use utf8;
 use strict;
-use Test::More;
+use Test::More tests => 9;
 use Test::Exception;
 use Acceptessa2::Administration::Types -types;
 use Acceptessa2::Administration::Validator;
-
-plan tests => 9;
 
 {
     throws_ok {

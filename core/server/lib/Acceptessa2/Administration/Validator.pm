@@ -43,10 +43,38 @@ method get_validator(Str $column) {
 
 method validate_all(Map[Str, Str] $data) {
     my $errors = {};
+    my $valid_data = {};
 
     while (my($col,$v) = each %{$self->validators}) {
-        warn $col, $v->validate($data->{$col});
+        if ($v->validate($data->{$col})) {
+            $valid_data->{$col} = $data->{$col};
+        }else {
+            $errors->{$col} = $v->get_error_message();
+        }
     }
+
+    return Acceptessa2::Administration::Validator::Result->new(
+        errors     => $errors,
+        valid_data => $valid_data,
+    );
+}
+
+1;
+
+package Acceptessa2::Administration::Validator::Result;
+use strictures 2;
+use Moose;
+use MooseX::StrictConstructor;
+use Function::Parameters;
+use Function::Return;
+use Acceptessa2::Administration::Types -types;
+use namespace::clean;
+
+has valid_data => (is => 'ro', isa => HashRef, required => 1);
+has errors => (is => 'ro', isa => HashRef, required => 1);
+
+method has_error() {
+    return !!keys %{$self->errors};
 }
 
 1;
@@ -67,8 +95,9 @@ has label       => (is => 'ro', isa => Str, required => 1);
 has description => (is => 'ro', isa => Str, required => 0);
 
 my $MESSAGE = {
-    Str => "「%s」は文字列で入力してください。",
-    Int => "「%s」は数値で入力してください。",
+    "Str"           => "「%s」は文字列で入力してください。",
+    "Int"           => "「%s」は数値で入力してください。",
+    "PositiveInt"   => "「%s」は正の整数で入力してください。",
 };
 
 method validate(Maybe [Str] $val): Return(Bool) {

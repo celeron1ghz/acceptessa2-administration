@@ -72,11 +72,11 @@ sub run_command {
 }
 
 method get_validator(Str $exhibition_id) {
-    if (!$self->validator->{$exhibition_id}) {
-        $self->validator->{$exhibition_id} = 1;
+    if (!$self->validators->{$exhibition_id}) {
+        $self->validators->{$exhibition_id} = 1;
     }
 
-    return $self->validator->{$exhibition_id};
+    return $self->validators->{$exhibition_id};
 }
 
 1;

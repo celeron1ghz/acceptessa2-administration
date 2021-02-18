@@ -1,9 +1,7 @@
 use strict;
 use warnings;
 use Util;
-use Test::More;
-
-plan tests => 3;
+use Test::More tests => 3;
 
 my ($m, $t) = mocked_instance;
 
